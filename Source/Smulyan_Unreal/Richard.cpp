@@ -86,8 +86,7 @@ void ARichard::Look_X(float value)
 
 void ARichard::Look_Y(float value)
 {
-	const float NewRotationPitch = CameraBoom->GetComponentRotation().Pitch + value;
-	const float CurrRotationYaw = CameraBoom->GetComponentRotation().Yaw;
-	CameraBoom->SetWorldRotation(FRotator(NewRotationPitch, CurrRotationYaw, 0.0f));
+	//uninvert camera
+	AddControllerPitchInput(-value);
 }
 
