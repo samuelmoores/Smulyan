@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Camera/CameraComponent.h"
 #include "GameFramework/Character.h"
+#include "GameFramework/SpringArmComponent.h"
 #include "Richard.generated.h"
 
 UCLASS()
@@ -22,6 +23,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, EditAnywhere)
 	UCameraComponent* Camera;
+
+	UPROPERTY(BlueprintReadOnly, EditAnywhere)
+	USpringArmComponent* CameraBoom;
 
 public:	
 	// Called every frame
