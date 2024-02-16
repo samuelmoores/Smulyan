@@ -36,8 +36,8 @@ public:
 
 	void Print(FString mes);
 
-	void Move(float value);
-
+	void Move_X(float value);
+	void Move_Y(float value);
 	void Look_X(float value);
 	void Look_Y(float value);
 

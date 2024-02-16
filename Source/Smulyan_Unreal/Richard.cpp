@@ -3,6 +3,8 @@
 
 #include "Richard.h"
 
+#include "GameFramework/CharacterMovementComponent.h"
+
 // Sets default values
 ARichard::ARichard()
 {
@@ -35,12 +37,10 @@ void ARichard::Tick(float DeltaTime)
 void ARichard::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
-
-	PlayerInputComponent->BindAxis("Move_X", this, &ARichard::Move);
+	PlayerInputComponent->BindAxis("Move_X", this, &ARichard::Move_X);
+	PlayerInputComponent->BindAxis("Move_Y", this, &ARichard::Move_Y);
 	PlayerInputComponent->BindAxis("Look_X", this, &ARichard::Look_X);
 	PlayerInputComponent->BindAxis("Look_Y", this, &ARichard::Look_Y);
-
-
 }
 
 void ARichard::Print(FString mes)
@@ -48,31 +48,46 @@ void ARichard::Print(FString mes)
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, mes);
 }
 
-void ARichard::Move(float value)
+void ARichard::Move_X(float value)
 {
-	//Print(FString::SanitizeFloat(value));
+	if(value > 0.0f || value < 0.0f)
+	{
+		// find out which way is forward
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get right vector
+		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+
+		AddMovementInput(RightDirection, value);
+	}
+}
+
+void ARichard::Move_Y(float value)
+{
+	if(value > 0.0f || value < 0.0f)
+	{
+		// find out which way is forward
+		const FRotator Rotation = Controller->GetControlRotation();
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+
+		// get forward vector
+		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+
+		AddMovementInput(ForwardDirection, value);
+		
+	}
 }
 
 void ARichard::Look_X(float value)
 {
-	const float NewRotationYaw = CameraBoom->GetComponentRotation().Yaw + value;
-	const float CurrRotationPitch = CameraBoom->GetComponentRotation().Pitch;
-
-	
-	CameraBoom->SetWorldRotation(FRotator(CurrRotationPitch, NewRotationYaw, 0.0f));
-
-	//Print(FString::SanitizeFloat(CameraBoom->GetComponentRotation().Yaw));
-
+	AddControllerYawInput(value);
 }
 
 void ARichard::Look_Y(float value)
 {
 	const float NewRotationPitch = CameraBoom->GetComponentRotation().Pitch + value;
 	const float CurrRotationYaw = CameraBoom->GetComponentRotation().Yaw;
-	
 	CameraBoom->SetWorldRotation(FRotator(NewRotationPitch, CurrRotationYaw, 0.0f));
-
-	//Print(FString::SanitizeFloat(CameraBoom->GetComponentRotation().Pitch));
-
 }
 
