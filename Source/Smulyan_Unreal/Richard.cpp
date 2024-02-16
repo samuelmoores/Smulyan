@@ -36,7 +36,10 @@ void ARichard::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 
-	PlayerInputComponent->BindAxis("Forward", this, &ARichard::Move);
+	PlayerInputComponent->BindAxis("Move_X", this, &ARichard::Move);
+	PlayerInputComponent->BindAxis("Look_X", this, &ARichard::Look_X);
+	PlayerInputComponent->BindAxis("Look_Y", this, &ARichard::Look_Y);
+
 
 }
 
@@ -47,6 +50,29 @@ void ARichard::Print(FString mes)
 
 void ARichard::Move(float value)
 {
-	Print(FString::SanitizeFloat(value));
+	//Print(FString::SanitizeFloat(value));
+}
+
+void ARichard::Look_X(float value)
+{
+	const float NewRotationYaw = CameraBoom->GetComponentRotation().Yaw + value;
+	const float CurrRotationPitch = CameraBoom->GetComponentRotation().Pitch;
+
+	
+	CameraBoom->SetWorldRotation(FRotator(CurrRotationPitch, NewRotationYaw, 0.0f));
+
+	//Print(FString::SanitizeFloat(CameraBoom->GetComponentRotation().Yaw));
+
+}
+
+void ARichard::Look_Y(float value)
+{
+	const float NewRotationPitch = CameraBoom->GetComponentRotation().Pitch + value;
+	const float CurrRotationYaw = CameraBoom->GetComponentRotation().Yaw;
+	
+	CameraBoom->SetWorldRotation(FRotator(NewRotationPitch, CurrRotationYaw, 0.0f));
+
+	//Print(FString::SanitizeFloat(CameraBoom->GetComponentRotation().Pitch));
+
 }
 

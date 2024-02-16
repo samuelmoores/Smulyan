@@ -38,4 +38,8 @@ public:
 
 	void Move(float value);
 
+	void Look_X(float value);
+	void Look_Y(float value);
+
+
 };
