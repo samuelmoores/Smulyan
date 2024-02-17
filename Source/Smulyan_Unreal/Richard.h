@@ -40,6 +40,4 @@ public:
 	void Move_Y(float value);
 	void Look_X(float value);
 	void Look_Y(float value);
-
-
 };

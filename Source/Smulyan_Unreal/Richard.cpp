@@ -41,6 +41,7 @@ void ARichard::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 	PlayerInputComponent->BindAxis("Move_Y", this, &ARichard::Move_Y);
 	PlayerInputComponent->BindAxis("Look_X", this, &ARichard::Look_X);
 	PlayerInputComponent->BindAxis("Look_Y", this, &ARichard::Look_Y);
+	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ARichard::Jump);
 }
 
 void ARichard::Print(FString mes)
